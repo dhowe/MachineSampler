@@ -6,12 +6,8 @@ import java.io.*;
 import java.util.*;
 
 import mkv.MyGUI.*;
-import ms.util.RiGUIEvent;
-import ms.util.RiTextField;
-import oscP5.*;
-import osci.OSCiClient;
-import pitaru.sonia_v2_9.Sample;
-import pitaru.sonia_v2_9.Sonia;
+import ms.util.*;
+import pitaru.sonia_v2_9.*;
 import processing.core.*;
 
 /*
@@ -26,12 +22,11 @@ public class MachineSampler extends PApplet
 {
   static final String VERSION = "1.5";
   
-  static boolean USE_OSC = true;
+  static boolean USE_OSC = false;
   static final boolean DBUG_OSC = false;
-  static boolean DISABLE_USER_INPUT = USE_OSC;
+  static boolean DISABLE_USER_INPUT = false;
   static int NUM_PER_COLUMN = USE_OSC ? 13: 15;
-  static int NUM_REPEATS = 3;
-  static final int SPACING = 40, NUM_COLUMNS = 4;
+  static int NUM_REPEATS = 3, SPACING = 40, NUM_COLUMNS = 4;
   
   static boolean LOAD_DEFAULT_SAMPLES = true;
   static String DEFAULT_SAMPLE_DIR = 
@@ -51,7 +46,7 @@ public class MachineSampler extends PApplet
 
   private static final String REQUEST_NEXT = "requestNext";
 
-  OscProxy oscProxy;
+  //OscProxy oscProxy;
   RiTextField repeatsInput;
   WaveSlider soloer, timerSlider, sliders[];
   PImage randButtonOff, randButtonOn, playButton, pauseButton;
@@ -91,7 +86,7 @@ public class MachineSampler extends PApplet
     
     createRepeatsInput();
     
-    if (USE_OSC) oscProxy = new OscProxy(this);
+    //if (USE_OSC) oscProxy = new OscProxy(this);
   }
   
   public void draw()
@@ -158,7 +153,7 @@ public class MachineSampler extends PApplet
       text(nm, mouseX+2, mouseY+32);
     }
   
-    if (USE_OSC) handleOsc();
+    //if (USE_OSC) handleOsc();
   }
 
   
@@ -185,7 +180,7 @@ public class MachineSampler extends PApplet
     }
   }
   
-  private void handleOsc()
+  /*private void handleOsc()
   {
 
     float percentComplete = timerSlider.getPercentComplete();
@@ -201,7 +196,7 @@ public class MachineSampler extends PApplet
         oscProxy.message(REQUEST_NEXT, nextLaunchTime());
       }
     }
-  }
+  }*/
 
   private long nextLaunchTime()
   {
@@ -661,8 +656,7 @@ public class MachineSampler extends PApplet
       if (samples != null && i < samples.length && samples[i] != null) 
         sliders[i].setSample(samples[i], names[i]);
     }
-    if (USE_OSC) 
-      oscProxy.message(REQUEST_NEXT, Long.MAX_VALUE);
+    //if (USE_OSC) oscProxy.message(REQUEST_NEXT, Long.MAX_VALUE);
   }
 
   public void onStartTimerSlider(WaveSlider ws) 
@@ -840,7 +834,7 @@ public class MachineSampler extends PApplet
   
   // ================================================================
   
-  class OscProxy implements OscEventListener {
+  /*class OscProxy implements OscEventListener {
     
     private static final int OSC_PORT = 13000;
 
@@ -904,7 +898,7 @@ public class MachineSampler extends PApplet
     {
       throw new RuntimeException("Stub only");
     }
-  }
+  }*/
   
   public float getMasterVolume()
   {
